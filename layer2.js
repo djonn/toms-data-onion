@@ -1,4 +1,5 @@
 import { decode } from "./lib/ascii85.js";
+import { bytesToString } from "./lib/utils.js";
 
 /**
  * @param {number} byte
@@ -16,36 +17,33 @@ const isParityValid = (byte) => {
  * @returns {string}
  */
 const removeParityAndCombine = (bytes) => {
-  const omegabyte = bytes
+  const omegaByte = bytes
     .map((byte) => byte >> 1)
     .map((byte) => byte.toString(2).padStart(7, "0"))
     .join("");
 
-  const characters = omegabyte
+  return omegaByte
     .split(/(.{8})/)
     .filter((x) => x !== "")
-    .map((x) => String.fromCharCode(parseInt(x, 2)));
-
-  return characters.join("");
+    .map((x) => parseInt(x, 2));
 };
 
 export const solve = (input) => {
   const ascii85Decoded = decode(input);
-  const bytes = ascii85Decoded.split("").map((x) => x.charCodeAt(0));
 
   let windowOfValidBytes = [];
-  let result = "";
+  let solution = [];
 
-  for (const byte of bytes) {
+  for (const byte of ascii85Decoded) {
     if (isParityValid(byte)) {
       windowOfValidBytes.push(byte);
     }
 
     if (windowOfValidBytes.length === 8) {
-      result += removeParityAndCombine(windowOfValidBytes);
+      solution.push(...removeParityAndCombine(windowOfValidBytes));
       windowOfValidBytes = [];
     }
   }
 
-  return result;
+  return bytesToString(solution);
 };

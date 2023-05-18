@@ -1,4 +1,5 @@
 import { decode } from "./lib/ascii85.js";
+import { bytesToString } from "./lib/utils.js";
 
 const rotateByteRight = (byte) => {
   const oldLeastSignificantBit = byte & 0b00000001;
@@ -14,9 +15,7 @@ const binaryOperation = (byte) => {
 
 export const solve = (input) => {
   const ascii85Decoded = decode(input);
-  const bytes = ascii85Decoded.split("").map((x) => x.charCodeAt(0));
-  return bytes
-    .map(binaryOperation)
-    .map((byte) => String.fromCharCode(byte))
-    .join("");
+  const solution = ascii85Decoded.map(binaryOperation);
+
+  return bytesToString(solution);
 };
