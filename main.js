@@ -18,3 +18,6 @@ payloads[2] = await extractPayloadAndSaveFiles(layers[2], 2);
 
 layers[3] = layer2Solve(payloads[2]);
 payloads[3] = await extractPayloadAndSaveFiles(layers[3], 3);
+
+layers[4] = layer3Solve(payloads[3]);
+payloads[4] = await extractPayloadAndSaveFiles(layers[4], 4);
