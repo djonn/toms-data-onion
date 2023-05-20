@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "https://www.tomdalling.com/toms-data-onion/",
   "type": "module",
+  "engines": {
+    "npm": ">=9.6.6",
+    "node": ">=20.0.0"
+  },
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
