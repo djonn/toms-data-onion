@@ -93,5 +93,5 @@ Since I decided not to implement the decryption myself once I had decrypted the 
 
 After having finished this layer and looked at the AES Key Wrap Algorithm specification it doesn't actually look too hard to decrypt the KEK myself, but still I can't be bothered to implement both this and the actual AES decryption, so I will just go on to the next layer.
 
-[^3]: See [`crypto-ciphers.js`](./crypto-ciphers.js)
+[^3]: See [`crypto-ciphers.js`](crypto-ciphers.js)
 [^4]: [RFC 3394 - Section 4.3](https://datatracker.ietf.org/doc/html/rfc3394#section-4.3)
