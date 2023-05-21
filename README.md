@@ -16,6 +16,8 @@ For a while now I've primarily been working in JavaScript (yes, not even TypeScr
 
 For each layer I save the full layer along with just the payload to make it easier for me to see if my solution was correct and the ASCII85 encoded string has the correct start and end delimiters.
 
+The following sections assume you have read the instructions for the that layer before reading my solution comments.
+
 **Beware, possible spoilers ahead!**
 
 ## Layer 0 - ASCII85
@@ -55,9 +57,9 @@ I'm guessing that the first 15 bytes of the payload is going to be `==[ Layer 4/
 I know have 30/32 bytes in the secret key and from here I'm just going to guess; So I take 2 random bytes as the remainder of the key and decode the whole payload and then look for the payload marker which I know is going to be somewhere in the message. Since the payload marker is longer than the key we can be sure that we do indeed have the correct key.
 Cracking the last 2 bytes of the secret key took just a couple of minutes on my ~4 year old laptop.
 
-_At one point during implementing I actually did notice that I had gotten most of the title of the next layer as some like `==[ Layer 4/6: Network Traffi*2,` from which I deduced that the first 32 bytes of the payload was `==[ Layer 4/6: Network Traffic ]`, however I wanted to find the secret key programmatically without me guessing some it._
+_At one point during implementing I actually did notice that I had gotten most of the title of the next layer as something like `==[ Layer 4/6: Network Traffi*2,` from which I deduced that the first 32 bytes of the payload was `==[ Layer 4/6: Network Traffic ]`, however I wanted to find the secret key programmatically without me guessing some it._
 
-## Layer4 - Network Traffic
+## Layer 4 - Network Traffic
 
 Networks like Tom's Data Onion are made up of layers, in this case some data wrapped in a UDP layer which then is wrapped in a IPv4 layer.
 
@@ -76,3 +78,20 @@ I got caught on the checksum calculation initially because it seemed from both t
 
 [^1]: [IPv4 Checksum implementation by bryc](https://gist.github.com/bryc/8a0885a4be58b6bbf0ec54c7758c0841#file-ipv4-js-L50-L59)
 [^2]: [UDP checksum calculation example by securitynik](https://www.securitynik.com/2015/08/calculating-udp-checksum-with-taste-of.html)
+
+## Layer 5 - Advanced Encryption Standard
+
+Instructions says not to try and implement the AES decryption myself and after just having finished layer 4 I'm going to comply with that suggestion.
+
+For the library I decided to go with Node.js built-in `crypto` api and I started out trying to identify what cipher to use, so I wrote a small utility script for displaying the different options [^3], for deciphering the KEK that seems to be `id-aes256-wrap` and for the payload itself it seems to be `aes-256-ctr`.
+
+For testing purposes I initially tried to decrypt the KEK using OpenSSL only to find that OpenSSL v1.1, which is widely used, doesn't actually support decrypting wrapped keys or maybe it does and it's only using the `enc` command that doesn't allow it, anyway I wasn't able to do it before abandoning the idea.
+
+My goal with the testing was to have the correct answer so I would know if my code was working as intended. I instead took the "Wrap 128 bits of Key Data with a 256-bit KEK" example values from RFC 3394 [^4] taking care to note that this document uses the default initialization vector (`0xA6A6A6A6A6A6A6A6`).
+
+Since I decided not to implement the decryption myself once I had decrypted the key it was just a matter of plugging in the correct cipher for the payload and I had the next layer.
+
+After having finished this layer and looked at the AES Key Wrap Algorithm specification it doesn't actually look too hard to decrypt the KEK myself, but still I can't be bothered to implement both this and the actual AES decryption, so I will just go on to the next layer.
+
+[^3]: See [`crypto-ciphers.js`](./crypto-ciphers.js)
+[^4]: [RFC 3394 - Section 4.3](https://datatracker.ietf.org/doc/html/rfc3394#section-4.3)

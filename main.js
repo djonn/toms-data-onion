@@ -4,6 +4,7 @@ import { solve as layer1Solve } from "./layer1.js";
 import { solve as layer2Solve } from "./layer2.js";
 import { solve as layer3Solve } from "./layer3.js";
 import { solve as layer4Solve } from "./layer4.js";
+import { solve as layer5Solve } from "./layer5.js";
 
 const layers = {};
 const payloads = {};
@@ -25,3 +26,6 @@ payloads[4] = await extractPayloadAndSaveFiles(layers[4], 4);
 
 layers[5] = layer4Solve(payloads[4]);
 payloads[5] = await extractPayloadAndSaveFiles(layers[5], 5);
+
+layers[6] = layer5Solve(payloads[5]);
+payloads[6] = await extractPayloadAndSaveFiles(layers[6], 6);
