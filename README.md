@@ -95,3 +95,19 @@ After having finished this layer and looked at the AES Key Wrap Algorithm specif
 
 [^3]: See [`crypto-ciphers.js`](crypto-ciphers.js)
 [^4]: [RFC 3394 - Section 4.3](https://datatracker.ietf.org/doc/html/rfc3394#section-4.3)
+
+## Layer 6 - Virtual Machine
+
+As the instructions suggested I was indeed quite intimidated by writing an emulated which was not made any better by the instructions being 500 lines long compared to the second longest instruction (layer 1) being only about 100 lines.
+
+I had a pretty good idea of how I wanted to structure the code and actually started writing it while reading the instructions (I had skimmed through already). Instructions need to be pretty simple for a computer to understand them and so were these. I was actually surprised how easy it was to implement this and how few bugs I needed to sort out as the only thing I missed really was the `(ptr+c)` pseudo-register which I had initially handled like a normal register that could be read from and written to instead of it pointing to memory addresses. Once I had added that bit of logic and ran the example code provided in the instructions I saw "Hello, world!" and my VM was working.
+
+## The Core
+
+Yay! I reached the core of Tom's Data Onion!
+
+There is indeed a secret hidden at the core of the onion, but not to me as I have learned this secret many years ago while traveling in the orient. It might sound like some silly flavour text, but I actually did.
+
+I would suggest you don't run my code at all and instead write your own, as it's true when they say that it's not about the destination, it's about the journey.
+
+I had a lot of fun and have stayed up a bit later than I should have a couple of nights trying to solve this. Good luck trying to get to The Core yourself!

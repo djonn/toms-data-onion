@@ -1,10 +1,12 @@
 import { fetchInitialLayer, extractPayloadAndSaveFiles } from "./lib/utils.js";
+import { writeFile } from "node:fs/promises";
 import { solve as layer0Solve } from "./layer0.js";
 import { solve as layer1Solve } from "./layer1.js";
 import { solve as layer2Solve } from "./layer2.js";
 import { solve as layer3Solve } from "./layer3.js";
 import { solve as layer4Solve } from "./layer4.js";
 import { solve as layer5Solve } from "./layer5.js";
+import { solve as layer6Solve } from "./layer6.js";
 
 const layers = {};
 const payloads = {};
@@ -29,3 +31,6 @@ payloads[5] = await extractPayloadAndSaveFiles(layers[5], 5);
 
 layers[6] = layer5Solve(payloads[5]);
 payloads[6] = await extractPayloadAndSaveFiles(layers[6], 6);
+
+const core = layer6Solve(payloads[6]);
+await writeFile(`./out/core.txt`, solution);
